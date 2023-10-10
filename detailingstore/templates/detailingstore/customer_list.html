@@ -1,0 +1,15 @@
+<!-- templates/detailingstore/customer_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista Klientów</title>
+</head>
+<body>
+    <h1>Lista Klientów</h1>
+    <ul>
+        {% for customer in customers %}
+            <li><a href="{% url 'customer_detail' customer.id %}">{{ customer.full_name }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

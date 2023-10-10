@@ -1,0 +1,15 @@
+<!-- templates/detailingstore/payment_method_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista Metod Płatności</title>
+</head>
+<body>
+    <h1>Lista Metod Płatności</h1>
+    <ul>
+        {% for method in methods %}
+            <li><a href="{% url 'payment_method_detail' method.id %}">{{ method.name }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!-- templates/detailingstore/order_status_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista Statusów Zamówienia</title>
+</head>
+<body>
+    <h1>Lista Statusów Zamówienia</h1>
+    <ul>
+        {% for status in statuses %}
+            <li><a href="{% url 'order_status_detail' status.id %}">{{ status.name }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

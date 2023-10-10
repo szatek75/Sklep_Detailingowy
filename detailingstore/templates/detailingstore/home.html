@@ -1,0 +1,24 @@
+{% extends 'detailingstore/base.html' %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1>Witaj w naszym sklepie detailingowym Jarotex!</h1>
+    <p>Znajdziesz tutaj najlepsze produkty do pielęgnacji swojego pojazdu.</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'product_list' %}" role="button">Zobacz nasze produkty</a>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2><a href="{% url 'promotions' %}">Nasza oferta</a></h2>
+        <p>Oferta sklepu detailingowego jest bogata i zróżnicowana. Oferujemy szeroki wybór produktów do pielęgnacji samochodu.</p>
+    </div>
+    <div class="col-md-4">
+        <h2><a href="{% url 'promotions' %}">Nasze promocje</a></h2>
+        <p>Sprawdź nasze aktualne promocje i okazje. Możesz zaoszczędzić na zakupach.</p>
+    </div>
+    <div class="col-md-4">
+        <h2><a href="{% url 'contact' %}">Kontakt</a></h2>
+        <p>Skontaktuj się z nami w razie jakichkolwiek pytań lub potrzeby pomocy.</p>
+    </div>
+</div>
+{% endblock %}

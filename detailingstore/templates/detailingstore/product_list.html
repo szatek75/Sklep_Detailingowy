@@ -1,0 +1,15 @@
+<!-- templates/detailingstore/product_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista Produktów</title>
+</head>
+<body>
+    <h1>Lista Produktów</h1>
+    <ul>
+        {% for product in products %}
+            <li><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
