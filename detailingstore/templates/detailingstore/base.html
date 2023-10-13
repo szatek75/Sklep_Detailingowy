@@ -20,7 +20,7 @@
             </li>
             {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'order_list' %}">Zamówienia</a>
+                    <a class="nav-link" href="{% url 'order_history' %}">Zamówienia</a>
                 </li>
             {% endif %}
             <li class="nav-item">
@@ -40,6 +40,9 @@
                         {% csrf_token %}
                         <button type="submit" class="nav-link btn btn-link">Wyloguj się</button>
                     </form>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cart' %}"><i class="fas fa-shopping-cart"></i> Koszyk</a>
                 </li>
             {% else %}
                 <li class="nav-item">

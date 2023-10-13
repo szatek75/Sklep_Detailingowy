@@ -13,3 +13,9 @@ class UserProfileForm(forms.ModelForm):
 
 class CustomLoginForm(LoginForm):
     login = forms.CharField(max_length=254, label="Nazwa użytkownika lub e-mail")
+
+class AddToCartForm(forms.Form):
+    quantity = forms.IntegerField(min_value=1, initial=1)
+
+class CartItemForm(forms.Form):
+    quantity = forms.IntegerField(min_value=1, label='Ilość')

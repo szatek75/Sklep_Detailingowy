@@ -1,0 +1,29 @@
+{% extends "detailingstore/base.html" %}
+
+{% block content %}
+<h1>Historia Zamówień</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Numer Zamówienia</th>
+            <th>Data Utworzenia</th>
+            <th>Produkty</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.created_at }}</td>
+            <td>
+                <ul>
+                    {% for item in order.items.all %}
+                    <li>{{ item.product.name }} (x{{ item.quantity }})</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -2,8 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from detailingstore.models import Category, ProductImage, OrderStatus, ShippingAddress, PaymentMethod, Product, Customer, Order
 from allauth.account.views import LoginView
 from django.contrib.auth.decorators import login_required
-from .models import Order, Product
-from .forms import UserProfileForm
+from .models import Order, Product, Category, Cart, CartItem, OrderItem
+from .forms import UserProfileForm, AddToCartForm, CartItemForm
 
 
 def category_list_view(request):
@@ -74,8 +74,15 @@ def home(request):
     return render(request, 'detailingstore/home.html')
 
 def product_list(request):
-    products = Product.objects.all()
-    return render(request, 'detailingstore/products.html', {'products': products})
+    category_id = request.GET.get('category')
+    categories = Category.objects.all()  # Pobierz dostępne kategorie
+
+    if category_id:
+        products = Product.objects.filter(category=category_id)
+    else:
+        products = Product.objects.all()
+
+    return render(request, 'detailingstore/product_list.html', {'products': products, 'categories': categories})
 
 def order_list(request):
     orders = Order.objects.all()
@@ -141,3 +148,101 @@ def profile_view(request):
 def profile(request):
     user = request.user
     return render(request, 'detailingstore/profile.html', {'user': user})
+
+
+def products_by_category(request, category_id):
+    category = Category.objects.get(pk=category_id)
+    products = Product.objects.filter(category=category)
+
+    return render(request, 'detailingstore/products_by_category.html', {'category': category, 'products': products})
+
+# def add_to_cart(request, product_id):
+#     product = Product.objects.get(pk=product_id)
+#     if request.method == 'POST':
+#         form = AddToCartForm(request.POST)
+#         if form.is_valid():
+#             quantity = form.cleaned_data['quantity']
+#             cart, created = Cart.objects.get_or_create(user=request.user)
+#             cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+#             cart_item.quantity += quantity
+#             cart_item.save()
+#             return redirect('cart')
+#     else:
+#         form = AddToCartForm()
+#     return render(request, 'detailingstore/add_to_cart.html', {'form': form})
+
+def view_cart(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_items = cart.cartitem_set.all()
+    return render(request, 'detailingstore/cart.html', {'cart': cart, 'cart_items': cart_items})
+
+def checkout(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        # Tworzenie zamówienia
+        order = Order(user=request.user)
+        order.save()
+
+        # Dodawanie produktów z koszyka do zamówienia
+        for item in cart.cartitem_set.all():
+            order_item = OrderItem(order=order, product=item.product, quantity=item.quantity)
+            order_item.save()
+
+        # Czyszczenie koszyka
+        cart.cartitem_set.all().delete()
+
+        return redirect('order_confirmation', order_id=order.id)
+
+    return render(request, 'detailingstore/checkout.html', {'cart': cart})
+
+@login_required
+def order_history(request):
+    user_orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'detailingstore/order_history.html', {'orders': user_orders})
+
+@login_required
+def cart(request):
+    try:
+        user_cart = Cart.objects.get(user=request.user)
+        cart_items = user_cart.cartitem_set.all()
+    except Cart.DoesNotExist:
+        user_cart = None
+        cart_items = []
+
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        new_quantity = int(request.POST.get('quantity'))
+
+        cart_item = get_object_or_404(CartItem, cart=user_cart, product__id=product_id)
+
+        if new_quantity == 0:
+            # Jeśli nowa ilość wynosi 0, usuń produkt z koszyka
+            cart_item.delete()
+        else:
+            cart_item.quantity = new_quantity
+            cart_item.save()
+
+    return render(request, 'detailingstore/cart.html', {'cart': user_cart, 'cart_items': cart_items})
+
+
+@login_required
+def add_to_cart(request, product_id):
+    quantity = request.GET.get('quantity', 1)  # Domyślnie 1, ale można zmienić na wartość przekazywaną z formularza
+    product = get_object_or_404(Product, pk=product_id)
+    user_cart, created = Cart.objects.get_or_create(user=request.user)
+
+    # Sprawdź, czy produkt już istnieje w koszyku
+    if user_cart.products.filter(id=product_id).exists():
+        # Jeśli istnieje, zaktualizuj ilość
+        cart_item = CartItem.objects.get(cart=user_cart, product=product)
+        cart_item.quantity += int(quantity)
+        cart_item.save()
+    else:
+        # Jeśli nie istnieje, dodaj nowy element do koszyka
+        cart_item = CartItem(cart=user_cart, product=product, quantity=int(quantity))
+        cart_item.save()
+
+    return redirect('product_list')
+
+def checkout(request):
+    return render(request, 'detailingstore/checkout.html')

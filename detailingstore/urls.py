@@ -5,6 +5,7 @@ from .forms import CustomLoginForm
 from detailingstore.views import user_orders, edit_profile
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import order_history, cart
 
 urlpatterns = [
     # URL-e dla widoków kategorii
@@ -62,6 +63,15 @@ urlpatterns = [
 
     path('profil/wyswietl/', views.profile_view, name='profile_view'),
 
+    path('category/<int:category_id>/', views.products_by_category, name='products_by_category'),
+
+    path('order_history/', order_history, name='order_history'),
+
+    path('cart/', cart, name='cart'),
+
+    path('product/<int:product_id>/add_to_cart/', views.add_to_cart, name='add_to_cart'),
+
+    path('checkout/', views.checkout, name='checkout'),
 ]
 
 

@@ -1,14 +1,34 @@
 {% extends 'detailingstore/base.html' %}
 
 {% block content %}
-    <h1>Nasze produkty</h1>
-    <ul>
+    <h1>Lista produktów</h1>
+    <form method="get" action="">
+        <label for="category">Wybierz kategorię:</label>
+        <select name="category" id="category">
+            <option value="">Wszystkie</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Filtruj">
+    </form>
+    <ul class="product-list">
         {% for product in products %}
-            <li>
-                <h2>{{ product.name }}</h2>
-                <p>Cena: {{ product.price }}</p>
-                <p>Opis: {{ product.description }}</p>
-                <!-- Dodaj więcej pól produktu, jeśli są dostępne -->
+            <li class="product-item">
+                <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+                <div class="product-details">
+                    <h2>{{ product.name }}</h2>
+                    <p>Cena: {{ product.price }}</p>
+                    <p>Opis: {{ product.description }}</p>
+
+                    <!-- Formularz do dodawania produktu do koszyka -->
+                    <form method="post" action="{% url 'add_to_cart' product.id %}">
+                        {% csrf_token %}
+                        <label for="quantity"></label>
+{#                        <input type="number" name="quantity" id="quantity" value="1" min="1">#}
+                        <button type="submit">Dodaj do koszyka</button>
+                    </form>
+                </div>
             </li>
         {% endfor %}
     </ul>

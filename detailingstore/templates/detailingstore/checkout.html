@@ -1,0 +1,15 @@
+{% extends 'detailingstore/base.html' %}
+
+{% block content %}
+    <h1>Checkout</h1>
+    <h2>Cart Contents:</h2>
+    <ul>
+        {% for item in cart_items %}
+            <li>{{ item.product.name }} - Quantity: {{ item.quantity }}</li>
+        {% endfor %}
+    </ul>
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Place Order">
+    </form>
+{% endblock %}
