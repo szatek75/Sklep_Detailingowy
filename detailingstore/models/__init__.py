@@ -6,3 +6,4 @@ from .productimage import ProductImage
 from .orderstatus import OrderStatus
 from .adress import ShippingAddress
 from .paymentmetod import PaymentMethod
+from .user_profile import UserProfile

@@ -1,0 +1,23 @@
+{% extends "detailingstore/base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h2>Zaloguj się</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.login.label_tag }}
+                    {{ form.login }}
+                    <div class="form-group">
+                        {{ form.password.label_tag }}
+                        {{ form.password }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Zaloguj się</button>
+                </form>
+                <p>Nie masz jeszcze konta? <a href="{% url 'account_signup' %}">Zarejestruj się</a></p>
+                <p>Zapomniałeś hasła? <a href="{% url 'account_reset_password' %}">Zresetuj hasło</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
