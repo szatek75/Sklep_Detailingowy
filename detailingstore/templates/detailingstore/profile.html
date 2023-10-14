@@ -6,7 +6,6 @@
 {% if user_profile %}
     <p>Imię: {{ user_profile.first_name }}</p>
     <p>Nazwisko: {{ user_profile.last_name }}</p>
-    <p>Adres: {{ user_profile.address }}</p>
 {% else %}
     <p>Twój profil nie jest jeszcze uzupełniony.</p>
     <a href="{% url 'edit_profile' %}">Uzupełnij profil</a>

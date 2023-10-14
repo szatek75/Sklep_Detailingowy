@@ -1,10 +1,9 @@
 from django.urls import path
-from allauth.account.views import SignupView, LoginView, LogoutView, PasswordResetView
+from allauth.account.views import SignupView, LoginView, LogoutView, PasswordResetView, ConfirmEmailView
 from . import views
-from .forms import CustomLoginForm
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import cart, payment_success, payment_cancel, order_list, order_detail
+from .views import cart, payment_success, payment_cancel, order_list, order_detail, confirm_email
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -13,10 +12,11 @@ urlpatterns = [
 
     path('contact/', views.contact, name='contact'),
 
-    path('accounts/login/', LoginView.as_view(form_class=CustomLoginForm, template_name='detailingstore/login.html'), name='account_login'),
+    path('accounts/login/', LoginView.as_view(template_name='detailingstore/login.html'), name='account_login'),
     path('accounts/signup/', SignupView.as_view(template_name='detailingstore/signup.html'), name='account_signup'),
     path('accounts/password/reset/', PasswordResetView.as_view(template_name='detailingstore/password_reset.html'),
          name='account_reset_password'),
+    path('accounts/confirm-email/<str:key>/', ConfirmEmailView.as_view(), name='account_confirm_email'),
 
     path('accounts/logout/', LogoutView.as_view(), name='account_logout'),
 

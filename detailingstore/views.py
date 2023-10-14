@@ -1,10 +1,11 @@
 import paypalrestsdk
 from django.shortcuts import render, get_object_or_404, redirect
-from allauth.account.views import LoginView
+from allauth.account.views import LoginView, SignupView
 from django.contrib.auth.decorators import login_required
 from .models import Order, Product, Category, Cart, CartItem, OrderItem
-from .forms import UserProfileForm, PayPalPaymentForm, CheckoutForm
+from .forms import UserProfileForm, PayPalPaymentForm, CheckoutForm, CustomSignupForm, CustomLoginForm
 from django.http import HttpResponse
+from allauth.account.models import EmailConfirmation
 
 
 def order_detail(request, order_id):
@@ -203,5 +204,27 @@ def payment_success(request):
 
 def payment_cancel(request):
     return render(request, 'detailingstore/cancel.html')
+
+class CustomSignupView(SignupView):
+    form_class = CustomSignupForm
+
+class CustomLoginView(LoginView):
+    form_class = CustomLoginForm
+    template_name = 'detailingstore/login.html'
+
+
+def confirm_email(request, key):
+    try:
+        email_confirmation = EmailConfirmation.objects.get(key=key)
+    except EmailConfirmation.DoesNotExist:
+        raise Http404("Email confirmation not found")
+
+    if email_confirmation.email_address.verified:
+        return render(request, 'detailingstore/email_already_verified.html')
+
+    email_confirmation.email_address.verified = True
+    email_confirmation.email_address.save()
+
+    return render(request, 'detailingstore/email_verified.html')
 
 

@@ -1,6 +1,6 @@
 from django import forms
 from .models import UserProfile
-from allauth.account.forms import LoginForm
+from allauth.account.forms import LoginForm, SignupForm
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
@@ -12,6 +12,9 @@ class UserProfileForm(forms.ModelForm):
 
 class CustomLoginForm(LoginForm):
     login = forms.CharField(max_length=254, label="Nazwa użytkownika lub e-mail")
+
+class CustomSignupForm(SignupForm):
+    address = forms.CharField(max_length=100, required=True, help_text="Adres")
 
 class AddToCartForm(forms.Form):
     quantity = forms.IntegerField(min_value=1, initial=1)
