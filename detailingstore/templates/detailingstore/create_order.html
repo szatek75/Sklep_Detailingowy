@@ -1,0 +1,18 @@
+{% extends "detailingstore/base.html" %}
+
+{% block content %}
+  <h2>Wprowadź adres dostawy:</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Złóż zamówienie</button>
+  </form>
+
+  <h3>Koszyk:</h3>
+  <ul>
+    {% for item in user_cart.cartitem_set.all %}
+      <li>{{ item.product.name }} - {{ item.quantity }} szt.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

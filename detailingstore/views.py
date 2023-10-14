@@ -10,6 +10,7 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadReque
 from django.urls import reverse
 from paypal.standard.forms import PayPalPaymentsForm
 from django import forms
+from django.db.models import Max
 
 
 
@@ -190,8 +191,58 @@ def view_cart(request):
     cart_items = cart.cartitem_set.all()
     return render(request, 'detailingstore/cart.html', {'cart': cart, 'cart_items': cart_items})
 
+# @login_required
+# def checkout(request):
+#     user_cart = get_object_or_404(Cart, user=request.user)
+#
+#     if request.method == 'POST':
+#         form = CheckoutForm(request.POST)
+#         if form.is_valid():
+#             # Przetwarzanie formularza
+#             address = form.cleaned_data['shipping_address']
+#             # Pozostała część kodu (przygotowanie danych PayPal)
+#
+#             # Oblicz łączną kwotę na podstawie produktów w koszyku
+#             total_amount = sum(item.product.price * item.quantity for item in user_cart.cartitem_set.all())
+#
+#             # Przygotowanie danych płatności PayPal (bez zmian)
+#             paypal_dict = {
+#                 "business": "seller@example.com",
+#                 "amount": str(total_amount),  # Kwota do zapłaty
+#                 "item_name": "Produkty w koszyku",  # Nazwa produktu
+#                 "invoice": "unique-invoice-id",  # Unikalny numer faktury
+#                 "currency_code": "PLN",  # Waluta
+#                 "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+#                 "return_url": request.build_absolute_uri(reverse('payment_success')),
+#                 "cancel_return": request.build_absolute_uri(reverse('payment_cancel')),
+#             }
+#
+#             # Tworzenie formularza płatności PayPal (bez zmian)
+#             form = PayPalPaymentsForm(initial=paypal_dict)
+#
+#             # Przykład: tworzenie nowego zamówienia i zapisywanie go w bazie
+#             new_order = Order(
+#                 user=request.user,
+#                 cart=user_cart,
+#                 order_name="Nazwa Zamówienia",
+#                 total_amount=total_amount,
+#                 shipping_address=address,  # Dodaj adres do zamówienia
+#                 # Inne pola zamówienia
+#             )
+#             new_order.save()
+#
+#             # Oznacz koszyk jako pusty
+#             user_cart.cartitem_set.all().delete()
+#
+#             return redirect('payment_success')  # Przekierowanie do strony sukcesu płatności
+#     else:
+#         form = CheckoutForm()
+#
+#     return render(request, 'detailingstore/checkout.html', {'form': form, 'user_cart': user_cart})
+
+
 @login_required
-def checkout(request):
+def create_order(request):
     user_cart = get_object_or_404(Cart, user=request.user)
 
     if request.method == 'POST':
@@ -199,33 +250,21 @@ def checkout(request):
         if form.is_valid():
             # Przetwarzanie formularza
             address = form.cleaned_data['shipping_address']
-            # Pozostała część kodu (przygotowanie danych PayPal)
 
             # Oblicz łączną kwotę na podstawie produktów w koszyku
             total_amount = sum(item.product.price * item.quantity for item in user_cart.cartitem_set.all())
 
-            # Przygotowanie danych płatności PayPal (bez zmian)
-            paypal_dict = {
-                "business": "seller@example.com",
-                "amount": str(total_amount),  # Kwota do zapłaty
-                "item_name": "Produkty w koszyku",  # Nazwa produktu
-                "invoice": "unique-invoice-id",  # Unikalny numer faktury
-                "currency_code": "PLN",  # Waluta
-                "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
-                "return_url": request.build_absolute_uri(reverse('payment_success')),
-                "cancel_return": request.build_absolute_uri(reverse('payment_cancel')),
-            }
+            # Znajdź liczbę zamówień użytkownika i zwiększ ją o 1
+            user_orders_count = Order.objects.filter(user=request.user).count()
+            order_number = f"Order-{user_orders_count + 1}"
 
-            # Tworzenie formularza płatności PayPal (bez zmian)
-            form = PayPalPaymentsForm(initial=paypal_dict)
-
-            # Przykład: tworzenie nowego zamówienia i zapisywanie go w bazie
+            # Przygotowanie danych zamówienia
             new_order = Order(
                 user=request.user,
                 cart=user_cart,
-                order_name="Nazwa Zamówienia",
+                order_number=order_number,
                 total_amount=total_amount,
-                shipping_address=address,  # Dodaj adres do zamówienia
+                shipping_address=address,
                 # Inne pola zamówienia
             )
             new_order.save()
@@ -233,13 +272,19 @@ def checkout(request):
             # Oznacz koszyk jako pusty
             user_cart.cartitem_set.all().delete()
 
-            return redirect('payment_success')  # Przekierowanie do strony sukcesu płatności
+            return redirect('payment')  # Przekierowanie do strony sukcesu płatności
     else:
         form = CheckoutForm()
 
-    return render(request, 'detailingstore/checkout.html', {'form': form, 'user_cart': user_cart})
+    return render(request, 'detailingstore/create_order.html', {'form': form, 'user_cart': user_cart})
 
 
+@login_required
+def payment(request):
+    # Tutaj możesz umieścić kod związanego z płatnościami, np. przetwarzanie płatności PayPal.
+    # To zależy od twoich potrzeb i wybranej metody płatności.
+
+    return render(request, 'detailingstore/payment.html')
 
 @login_required
 def order_history(request):

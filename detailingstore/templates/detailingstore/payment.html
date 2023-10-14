@@ -1,0 +1,20 @@
+{% extends "detailingstore/base.html" %}
+
+{% block content %}
+  <h2>Podsumowanie płatności</h2>
+  <p>Dziękujemy za złożenie zamówienia. Teraz prosimy dokonać płatności za pomocą PayPal.</p>
+
+  <!-- Tutaj możesz umieścić kod przycisku lub linku do płatności PayPal -->
+  <!-- Przykład przycisku płatności PayPal -->
+  <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+    <input type="hidden" name="cmd" value="_s-xclick">
+    <input type="hidden" name="hosted_button_id" value="TWÓJ_IDENTYFIKATOR_PRZYCISKU">
+    <input type="image" src="https://www.paypalobjects.com/pl_PL/PL/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal – Płać wygodnie i bezpiecznie">
+    <img alt="" border="0" src="https://www.paypalobjects.com/pl_PL/i/scr/pixel.gif" width="1" height="1">
+  </form>
+
+  <!-- Możesz dostosować powyższy kod przycisku do swoich potrzeb i uzyskać identyfikator przycisku z PayPal -->
+
+  <p>Po dokonaniu płatności, postaramy się jak najszybciej zrealizować Twoje zamówienie.</p>
+</div>
+{% endblock %}

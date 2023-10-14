@@ -24,7 +24,7 @@ class OrderItem(models.Model):
     order_reference = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
-
+#
     def save(self, *args, **kwargs):
         self.price = self.product.price * self.quantity
         super().save(*args, **kwargs)

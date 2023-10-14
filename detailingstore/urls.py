@@ -5,7 +5,7 @@ from .forms import CustomLoginForm
 from detailingstore.views import user_orders, edit_profile
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import order_history, cart, paypal_ipn, payment_success, payment_cancel, order_list, order_detail
+from .views import order_history, cart, paypal_ipn, payment_success, payment_cancel, order_list, order_detail, create_order, payment
 
 urlpatterns = [
     # URL-e dla widoków kategorii
@@ -71,7 +71,7 @@ urlpatterns = [
 
     path('product/<int:product_id>/add_to_cart/', views.add_to_cart, name='add_to_cart'),
 
-    path('checkout/', views.checkout, name='checkout'),
+    # path('checkout/', views.checkout, name='checkout'),
 
     path('paypal-ipn/', paypal_ipn, name='paypal-ipn'),
 
@@ -80,6 +80,10 @@ urlpatterns = [
 
     path('orders/', order_list, name='order_list'),
     path('order/<int:order_id>/', order_detail, name='order_detail'),
+
+    path('create_order/', views.create_order, name='create_order'),
+
+    path('payment/', views.payment, name='payment'),
 ]
 
 
