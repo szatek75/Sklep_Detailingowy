@@ -1,0 +1,9 @@
+{% extends "detailingstore/base.html" %}
+
+{% block content %}
+  <div class="container">
+    <h1>Email Address Verified</h1>
+    <p>Your email address has been successfully verified.</p>
+    <p>You can now <a href="{% url 'login' %}">log in</a> to your account.</p>
+  </div>
+{% endblock %}

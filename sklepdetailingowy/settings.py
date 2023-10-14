@@ -60,7 +60,12 @@ LOGIN_REDIRECT_URL = 'home'
 
 LOGOUT_REDIRECT_URL = 'home'
 
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
+
 AUTH_PROFILE_MODULE = 'detailingstore.UserProfile'
+
+ACCOUNT_FORMS = {'signup': 'detailingstore.forms.CustomSignupForm'}
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

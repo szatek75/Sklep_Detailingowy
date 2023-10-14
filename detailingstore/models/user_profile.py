@@ -7,8 +7,9 @@ from django.dispatch import receiver
 # Model profilu użytkownika
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=30, blank=True, null=True)
-    last_name = models.CharField(max_length=30, blank=True, null=True)
+    first_name = models.CharField(max_length=30, default="", blank=True, null=True)
+    last_name = models.CharField(max_length=30, default="", blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, null=True, default="")
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
