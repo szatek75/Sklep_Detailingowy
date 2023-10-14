@@ -29,13 +29,10 @@ class PayPalPaymentForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(PayPalPaymentForm, self).__init__(*args, **kwargs)
-
-        # Inicjalizacja parametrów formularza, na przykład z nazwą produktu i ceną
         self.fields['item_name'].initial = "Product Name"
         self.fields['amount'].initial = 10.00
 
     def render(self):
-        # Generowanie formularza HTML
         form_html = '<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">'
         for field_name, field in self.fields.items():
             form_html += str(field)

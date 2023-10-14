@@ -104,11 +104,11 @@ WSGI_APPLICATION = 'sklepdetailingowy.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'detailingstore',     # Nazwa twojej bazy danych
-        'USER': 'postgres',   # Nazwa użytkownika PostgreSQL
-        'PASSWORD': 'coderslab',   # Hasło użytkownika PostgreSQL
-        'HOST': 'localhost',  # Adres hosta, na którym działa PostgreSQL
-        'PORT': 5432,          # Opcjonalnie, port baz danych (domyślny to 5432)
+        'NAME': 'detailingstore',
+        'USER': 'postgres',
+        'PASSWORD': 'coderslab',
+        'HOST': 'localhost',
+        'PORT': 5432,
     }
 }
 

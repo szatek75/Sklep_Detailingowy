@@ -5,11 +5,7 @@
     <p>Prosimy o potwierdzenie swojej płatności. Sprawdź, czy wszystkie dane są poprawne przed dokonaniem płatności.</p>
     <form method="post" action="">
         {% csrf_token %}
-        <!-- Tutaj umieść pola formularza do potwierdzenia płatności, takie jak dane karty kredytowej itp. -->
-        <!-- Na przykład, możesz użyć pól dla numeru karty, daty ważności, kodu CVV itp. -->
-        <!-- Pamiętaj, że obsługa płatności wymaga zintegrowania systemu płatności, np. zewnętrznego dostawcy płatności lub dostosowania do własnych potrzeb. -->
-        <!-- Przycisk "Zapłać" lub "Potwierdź płatność" powinien być dostosowany do obsługi płatności. -->
-        <!-- Upewnij się, że masz odpowiednią logikę obsługi płatności w twoim widoku, który renderuje ten formularz. -->
+
         <button type="submit" class="btn btn-primary">Zapłać</button>
     </form>
 </div>

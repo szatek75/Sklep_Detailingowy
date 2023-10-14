@@ -21,7 +21,6 @@
                     <p>Cena: {{ product.price }}zł</p>
                     <p>Opis: {{ product.description }}</p>
 
-                    <!-- Formularz do dodawania produktu do koszyka -->
                     <form method="post" action="{% url 'add_to_cart' product.id %}">
                         {% csrf_token %}
                         <label for="quantity"></label>

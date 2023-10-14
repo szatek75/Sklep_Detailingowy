@@ -6,6 +6,7 @@ from django.utils import timezone
 from djmoney.models.fields import MoneyField
 from djmoney.money import Money
 
+# Model zamówienia
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True, blank=True)
@@ -20,6 +21,7 @@ class Order(models.Model):
     def __str__(self):
         return self.order_number
 
+# Model produktów w zamówieniu
 class OrderItem(models.Model):
     order_reference = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
