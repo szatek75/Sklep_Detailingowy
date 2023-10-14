@@ -1,15 +1,12 @@
-<!-- templates/detailingstore/order_list.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Lista Zamówień</title>
-</head>
-<body>
-    <h1>Lista Zamówień</h1>
+{% extends "detailingstore/base.html" %}
+
+{% block content %}
+    <h1>Twoje zamówienia</h1>
     <ul>
         {% for order in orders %}
-            <li><a href="{% url 'order_detail' order.id %}">{{ order.order_number }}</a></li>
+            <li>
+                <a href="{% url 'order_detail' order.id %}">Zamówienie #{{ order.order_number }}</a> ({{ order.order_date }})
+            </li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock %}

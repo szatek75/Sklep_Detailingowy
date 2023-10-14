@@ -1,0 +1,12 @@
+{% extends 'detailingstore/base.html' %}
+
+{% block content %}
+    <h1>Potwierdź płatność</h1>
+    <p>Prosimy o potwierdzenie swojej płatności. Sprawdź, czy wszystkie dane są poprawne przed dokonaniem płatności.</p>
+    <form method="post" action="">
+        {% csrf_token %}
+
+        <button type="submit" class="btn btn-primary">Zapłać</button>
+    </form>
+</div>
+{% endblock %}

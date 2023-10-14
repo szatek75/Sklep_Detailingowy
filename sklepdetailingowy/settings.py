@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,12 +39,31 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'detailingstore',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'djmoney',
+
 ]
+
+STATIC_URL = 'static/css/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/css')]
+
+PAYPAL_CLIENT_ID = 'AWLQGc4U7avpWfBffWNiLZwo4vlKF6MFWNtohiN9V-k1mPJdQOpST_TBycGT8gUA933p2K7L6PDnAWa2'
+PAYPAL_CLIENT_SECRET = 'ENcJNc3tBdJNWPc5MIYrdVj9DFQKocgA_UbASokTmvVLnZwnlA8I27KfvYAlpqsdXVcCNK81utRq4WS_'
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+LOGIN_REDIRECT_URL = 'home'
+
+LOGOUT_REDIRECT_URL = 'home'
+
+AUTH_PROFILE_MODULE = 'detailingstore.UserProfile'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -53,6 +73,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'sklepdetailingowy.urls'
@@ -83,11 +104,11 @@ WSGI_APPLICATION = 'sklepdetailingowy.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sklepdetailingowy',     # Nazwa twojej bazy danych
-        'USER': 'postgres',   # Nazwa użytkownika PostgreSQL
-        'PASSWORD': 'coderslab',   # Hasło użytkownika PostgreSQL
-        'HOST': 'localhost',  # Adres hosta, na którym działa PostgreSQL
-        'PORT': 5432,          # Opcjonalnie, port baz danych (domyślny to 5432)
+        'NAME': 'detailingstore',
+        'USER': 'postgres',
+        'PASSWORD': 'coderslab',
+        'HOST': 'localhost',
+        'PORT': 5432,
     }
 }
 
@@ -127,7 +148,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
