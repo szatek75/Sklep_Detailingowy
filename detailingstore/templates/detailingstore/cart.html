@@ -1,7 +1,7 @@
 {% extends 'detailingstore/base.html' %}
 
 {% block content %}
-    <h1>Your Cart</h1>
+    <h1>Twój koszyk</h1>
     <form method="post" action="">
         {% csrf_token %}
         <ul>
@@ -10,7 +10,7 @@
                     <img class="product-image" src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
                     <div class="product-details">
                         <h2>{{ item.product.name }}</h2>
-                        <p>Cena: {{ item.product.price }}</p>
+                        <p>Cena: {{ item.product.price }}zł</p>
                         <p>Opis: {{ item.product.description }}</p>
                         <p>
                             <form method="post" action="">

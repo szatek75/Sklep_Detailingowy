@@ -1,12 +1,34 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Szczegóły Zamówienia</title>
-</head>
-<body>
-    <h1>Szczegóły Zamówienia</h1>
-    <p>Numer zamówienia: {{ order.order_number }}</p>
-    <p>Data zamówienia: {{ order.order_date }}</p>
-    <!-- inne informacje dotyczące zamówienia -->
-</body>
-</html>
+{% extends "detailingstore/base.html" %}
+
+{% block content %}
+  <h1>Szczegóły zamówienia</h1>
+
+  <p><strong>Numer zamówienia:</strong> {{ order.order_number }}</p>
+  <p><strong>Nazwa zamówienia:</strong> {{ order.order_name }}</p>
+  <p><strong>Zamówienie z:</strong> {{ order.created_at }}</p>
+  <p><strong>Adres dostawy:</strong> {{ order.shipping_address }}</p>
+  <p><strong>Łączna kwota:</strong> {{ order.total_amount }}</p>
+
+  <h2>Zamówione przedmioty:</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Produkt:</th>
+        <th>Ilość:</th>
+        <th>Cena:</th>
+      </tr>
+    </thead>
+{#    <tbody>#}
+{#      {% for item in order.order_items.all %}#}
+{#        <tr>#}
+{#          <td>{{ item.product.name }}</td>#}
+{#          <td>{{ item.quantity }}</td>#}
+{#          <td>${{ item.price }}</td>#}
+{#        </tr>#}
+{#      {% endfor %}#}
+{#    </tbody>#}
+{#  </table>#}
+
+  {# Dodaj tutaj pola na dane klienta, takie jak first_name, last_name, address, itp., jeśli są dostępne w modelu Order #}
+
+{% endblock %}

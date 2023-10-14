@@ -42,11 +42,15 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'djmoney',
 
 ]
 
 STATIC_URL = 'static/css/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/css')]
+
+PAYPAL_CLIENT_ID = 'AWLQGc4U7avpWfBffWNiLZwo4vlKF6MFWNtohiN9V-k1mPJdQOpST_TBycGT8gUA933p2K7L6PDnAWa2'
+PAYPAL_CLIENT_SECRET = 'ENcJNc3tBdJNWPc5MIYrdVj9DFQKocgA_UbASokTmvVLnZwnlA8I27KfvYAlpqsdXVcCNK81utRq4WS_'
 
 AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
